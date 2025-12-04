@@ -369,11 +369,11 @@ export const Editor: React.FC<EditorProps> = ({ config, setConfig, onGenerate, i
           {isGenerating ? (
             <>
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              Generating HTML...
+              Generating Signature...
             </>
           ) : (
             <>
-              Generate HTML Code
+              Generate Signature
             </>
           )}
         </button>

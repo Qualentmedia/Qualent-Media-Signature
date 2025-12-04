@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Editor } from './components/Editor';
 import { Preview } from './components/Preview';
@@ -23,7 +22,7 @@ const App: React.FC = () => {
       { id: '3', label: 'ADDRESS', value: 'Austin, TX 78750, United States' },
     ],
     socialLinks: {
-      linkedin: '',
+      linkedin: 'https://linkedin.com/in/asim',
       calendly: '',
       twitter: '',
       youtube: '',

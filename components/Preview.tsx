@@ -1,6 +1,5 @@
 import React from 'react';
 import { SignatureConfig } from '../types';
-import { Linkedin, Calendar, Twitter, Youtube, Instagram } from 'lucide-react';
 
 interface PreviewProps {
   config: SignatureConfig;
@@ -9,6 +8,26 @@ interface PreviewProps {
 export const Preview: React.FC<PreviewProps> = ({ config }) => {
   // Check if there is at least one non-empty social link
   const hasSocialLinks = Object.values(config.socialLinks).some(link => (link as string).trim() !== '');
+
+  const SocialIcon = ({ url, slug, alt }: { url: string; slug: string; alt: string }) => {
+    if (!url || !url.trim()) return null;
+    return (
+      <a 
+        href={url} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="inline-block mr-1.5 no-underline"
+      >
+        <div className="bg-black rounded-full w-7 h-7 flex items-center justify-center overflow-hidden">
+            <img 
+                src={`https://img.icons8.com/ios-filled/50/ffffff/${slug}.png`} 
+                alt={alt} 
+                className="w-4 h-4 block border-none object-contain" 
+            />
+        </div>
+      </a>
+    );
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 h-full flex flex-col">
@@ -37,7 +56,7 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
 
           {/* Signature Content Area */}
           <div className="p-8">
-            <div className="mb-6 text-gray-700 font-serif">
+            <div className="mb-8 text-gray-700 font-serif leading-relaxed">
               <p>Hello,</p>
               <br />
               <p>Here is the requested document. Let me know if you need anything else.</p>
@@ -45,11 +64,12 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
               <p>Best regards,</p>
             </div>
 
-            {/* Actual Signature Preview */}
-            <div className="mt-8 border-t-0 border-gray-200 pt-0">
+            {/* Actual Signature Preview - Wrapper mimics the main table container */}
+            <div className="mt-6 border-t-0 border-gray-200 pt-0 text-left font-sans text-gray-900 leading-[1.2]">
               
               {/* Header Section: Logo + Name */}
-              <div className="flex flex-col sm:flex-row gap-6 items-start mb-6">
+              {/* Simulating <tr><td>...</td><td>...</td></tr> structure with flex, but tight gaps */}
+              <div className="flex flex-col sm:flex-row gap-4 items-start mb-3">
                 {config.logo && (
                   <div className="shrink-0">
                     {config.logoLink ? (
@@ -57,7 +77,7 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
                              <img
                               src={config.logo}
                               alt="Logo"
-                              className="w-20 h-20 object-contain"
+                              className="w-[80px] h-[80px] object-contain block"
                               onError={(e) => (e.currentTarget.style.display = 'none')}
                             />
                         </a>
@@ -65,7 +85,7 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
                          <img
                           src={config.logo}
                           alt="Logo"
-                          className="w-20 h-20 object-contain"
+                          className="w-[80px] h-[80px] object-contain block"
                           onError={(e) => (e.currentTarget.style.display = 'none')}
                         />
                     )}
@@ -73,26 +93,26 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
                 )}
                 
                 <div className="flex flex-col pt-1">
-                  <h1 className="text-3xl font-serif font-bold text-gray-900 leading-tight">
+                  <h1 className="text-[22px] font-serif font-bold text-gray-900 leading-tight m-0 p-0">
                     {config.fullName || "Your Name"}
                   </h1>
-                  <p className="text-sm font-mono uppercase tracking-[0.2em] text-gray-600 mt-2">
+                  <p className="text-[12px] font-mono uppercase tracking-widest text-gray-600 mt-1 m-0 p-0">
                     {config.jobTitle || "Job Title"}
                   </p>
                 </div>
               </div>
 
               {/* Divider */}
-              <hr className="border-gray-300 my-6" />
+              <div className="h-px bg-gray-300 w-full my-3"></div>
 
               {/* Contact Details */}
-              <div className="space-y-3 mb-6">
+              <div className="space-y-1 mb-3">
                 {config.contactFields.map((field) => (
-                  <div key={field.id} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
-                    <span className="font-mono font-bold text-gray-900 text-sm uppercase min-w-[100px]">
+                  <div key={field.id} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2 text-[14px]">
+                    <span className="font-mono font-bold text-gray-900 uppercase min-w-[80px] text-xs">
                       {field.label}:
                     </span>
-                    <span className="font-serif text-gray-600 text-base">
+                    <span className="font-serif text-gray-600">
                       {field.value}
                     </span>
                   </div>
@@ -101,44 +121,24 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
 
               {/* Social Media Links */}
               {hasSocialLinks && (
-                  <div className="flex flex-wrap gap-2 mb-8">
-                      {config.socialLinks.linkedin?.trim() && (
-                          <a href={config.socialLinks.linkedin} className="bg-gray-900 text-white p-2 rounded-full hover:bg-gray-700 transition">
-                              <Linkedin className="w-4 h-4" />
-                          </a>
-                      )}
-                      {config.socialLinks.calendly?.trim() && (
-                          <a href={config.socialLinks.calendly} className="bg-gray-900 text-white p-2 rounded-full hover:bg-gray-700 transition">
-                              <Calendar className="w-4 h-4" />
-                          </a>
-                      )}
-                      {config.socialLinks.twitter?.trim() && (
-                          <a href={config.socialLinks.twitter} className="bg-gray-900 text-white p-2 rounded-full hover:bg-gray-700 transition">
-                              <Twitter className="w-4 h-4" />
-                          </a>
-                      )}
-                      {config.socialLinks.youtube?.trim() && (
-                          <a href={config.socialLinks.youtube} className="bg-gray-900 text-white p-2 rounded-full hover:bg-gray-700 transition">
-                              <Youtube className="w-4 h-4" />
-                          </a>
-                      )}
-                      {config.socialLinks.instagram?.trim() && (
-                          <a href={config.socialLinks.instagram} className="bg-gray-900 text-white p-2 rounded-full hover:bg-gray-700 transition">
-                              <Instagram className="w-4 h-4" />
-                          </a>
-                      )}
+                  <div className="flex flex-wrap items-center mb-4">
+                      <SocialIcon url={config.socialLinks.linkedin} slug="linkedin" alt="LinkedIn" />
+                      <SocialIcon url={config.socialLinks.calendly} slug="calendly" alt="Calendly" />
+                      <SocialIcon url={config.socialLinks.twitter} slug="x" alt="X" />
+                      <SocialIcon url={config.socialLinks.youtube} slug="youtube" alt="YouTube" />
+                      <SocialIcon url={config.socialLinks.instagram} slug="instagram-new" alt="Instagram" />
                   </div>
               )}
 
               {/* Banner */}
               {config.banner && (
-                <div className="mb-6 w-full">
+                <div className="mb-4 w-full max-w-[600px]">
                   {config.bannerLink ? (
-                      <a href={config.bannerLink} target="_blank" rel="noopener noreferrer" className="block w-full">
+                      <a href={config.bannerLink} target="_blank" rel="noopener noreferrer" className="block w-full text-decoration-none">
                           <img
                             src={config.banner}
                             alt="Banner"
-                            className="w-full max-w-full h-auto object-cover rounded-sm"
+                            className="w-full h-auto object-cover block border-none"
                             onError={(e) => (e.currentTarget.style.display = 'none')}
                           />
                       </a>
@@ -146,7 +146,7 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
                       <img
                         src={config.banner}
                         alt="Banner"
-                        className="w-full max-w-full h-auto object-cover rounded-sm"
+                        className="w-full h-auto object-cover block border-none"
                         onError={(e) => (e.currentTarget.style.display = 'none')}
                       />
                   )}
@@ -155,7 +155,7 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
 
               {/* Disclaimer */}
               {config.disclaimer && (
-                <div className="text-[10px] leading-tight text-gray-400 border-t border-gray-100 pt-4 font-sans text-justify">
+                <div className="text-[10px] leading-snug text-gray-400 font-sans text-justify m-0 p-0">
                   {config.disclaimer}
                 </div>
               )}
