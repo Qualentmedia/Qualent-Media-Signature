@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { SignatureConfig, GeneratedResult } from "../types";
 
@@ -24,10 +23,12 @@ export const generateSignatureCode = async (config: SignatureConfig): Promise<Ge
         *   Include a horizontal divider line.
     4.  **Social Media:**
         *   Place the social media icons immediately after the Contact Details.
-        *   Use CIRCULAR icons (black circle background with white logo).
-        *   Use publicly available, reliable CDN URLs for the social icons (e.g., from Icons8 or similar). Ensure they are approx 24x24px.
-        *   Wrap each icon in an anchor (<a>) tag pointing to the provided URL.
-        *   Only include icons for services that have a URL provided in the data.
+        *   **Style:** Use CIRCULAR icons. The desired look is a **solid black circle** (approx 24px) with a **white icon** inside.
+        *   Since you cannot generate images, use text-based styling on a container or assume reliable generic icons if necessary. 
+        *   *Preferred Approach:* Use an <img> tag with a reliable public URL for a "Black Circle" version of the social icon (e.g. from a reliable CDN like icons8 or imgur if you know stable paths).
+        *   *Alternative:* If you cannot guarantee the image source, style a <span> or <div> with 'background-color: black; border-radius: 50%; display: inline-block; width: 24px; height: 24px;' and place a small white icon image inside it.
+        *   Wrap each icon container in an anchor (<a>) tag pointing to the provided URL.
+        *   Only include icons for services that have a non-empty URL provided in the data.
     5.  **Images & Links:**
         *   **Logo:**
             *   If a 'logo' URL is provided, place it to the left of the name/title block.

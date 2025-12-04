@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { SignatureConfig } from '../types';
 import { Linkedin, Calendar, Twitter, Youtube, Instagram } from 'lucide-react';
@@ -8,6 +7,7 @@ interface PreviewProps {
 }
 
 export const Preview: React.FC<PreviewProps> = ({ config }) => {
+  // Check if there is at least one non-empty social link
   const hasSocialLinks = Object.values(config.socialLinks).some(link => (link as string).trim() !== '');
 
   return (
@@ -58,6 +58,7 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
                               src={config.logo}
                               alt="Logo"
                               className="w-20 h-20 object-contain"
+                              onError={(e) => (e.currentTarget.style.display = 'none')}
                             />
                         </a>
                     ) : (
@@ -65,6 +66,7 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
                           src={config.logo}
                           alt="Logo"
                           className="w-20 h-20 object-contain"
+                          onError={(e) => (e.currentTarget.style.display = 'none')}
                         />
                     )}
                   </div>
@@ -100,27 +102,27 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
               {/* Social Media Links */}
               {hasSocialLinks && (
                   <div className="flex flex-wrap gap-2 mb-8">
-                      {config.socialLinks.linkedin && (
+                      {config.socialLinks.linkedin?.trim() && (
                           <a href={config.socialLinks.linkedin} className="bg-gray-900 text-white p-2 rounded-full hover:bg-gray-700 transition">
                               <Linkedin className="w-4 h-4" />
                           </a>
                       )}
-                      {config.socialLinks.calendly && (
+                      {config.socialLinks.calendly?.trim() && (
                           <a href={config.socialLinks.calendly} className="bg-gray-900 text-white p-2 rounded-full hover:bg-gray-700 transition">
                               <Calendar className="w-4 h-4" />
                           </a>
                       )}
-                      {config.socialLinks.twitter && (
+                      {config.socialLinks.twitter?.trim() && (
                           <a href={config.socialLinks.twitter} className="bg-gray-900 text-white p-2 rounded-full hover:bg-gray-700 transition">
                               <Twitter className="w-4 h-4" />
                           </a>
                       )}
-                      {config.socialLinks.youtube && (
+                      {config.socialLinks.youtube?.trim() && (
                           <a href={config.socialLinks.youtube} className="bg-gray-900 text-white p-2 rounded-full hover:bg-gray-700 transition">
                               <Youtube className="w-4 h-4" />
                           </a>
                       )}
-                      {config.socialLinks.instagram && (
+                      {config.socialLinks.instagram?.trim() && (
                           <a href={config.socialLinks.instagram} className="bg-gray-900 text-white p-2 rounded-full hover:bg-gray-700 transition">
                               <Instagram className="w-4 h-4" />
                           </a>
@@ -137,6 +139,7 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
                             src={config.banner}
                             alt="Banner"
                             className="w-full max-w-full h-auto object-cover rounded-sm"
+                            onError={(e) => (e.currentTarget.style.display = 'none')}
                           />
                       </a>
                   ) : (
@@ -144,6 +147,7 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
                         src={config.banner}
                         alt="Banner"
                         className="w-full max-w-full h-auto object-cover rounded-sm"
+                        onError={(e) => (e.currentTarget.style.display = 'none')}
                       />
                   )}
                 </div>
