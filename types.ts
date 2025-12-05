@@ -14,6 +14,7 @@ export interface SocialLinks {
 }
 
 export interface SignatureConfig {
+  signOff: string;
   fullName: string;
   jobTitle: string;
   logo: string | null; // URL string

@@ -23,14 +23,18 @@ export const generateSignatureCode = async (config: SignatureConfig): Promise<Ge
         *   Only add vertical spacing using empty rows <tr style="height: 10px;"> or specific 'padding-bottom' where absolutely necessary to separate sections.
 
     3.  **STRUCTURE ORDER (Strict):**
-        1.  **Header:** Logo (left) + Name/Title (right of logo).
-        2.  **Divider:** Horizontal line (ensure no huge gaps above/below).
-        3.  **Details:** Contact fields (Website, Email, Address).
-        4.  **Social Media:** Icons row.
-        5.  **Banner:** The banner image (if provided).
-        6.  **Footer:** The Disclaimer text (if provided) is the LAST element.
+        1.  **Pre-Spacing:** Start the HTML output with <br><br> (two line breaks) to create space between the email body and the signature.
+        2.  **NO DELIMITERS:** **DO NOT** include the standard email signature delimiter ("-- ", "--", or "—") before the sign-off or anywhere else. The signature should start cleanly after the line breaks.
+        3.  **Sign-off:** The provided 'signOff' text (e.g. "Best regards,") follows immediately. Add spacing below it (e.g., <br><br> or padding-bottom: 20px) to separate it from the logo/name.
+        4.  **Header:** Logo (left) + Name/Title (right of logo).
+        5.  **Divider:** Horizontal line (ensure no huge gaps above/below).
+        6.  **Details:** Contact fields (Website, Email, Address).
+        7.  **Social Media:** Icons row.
+        8.  **Banner:** The banner image (if provided).
+        9.  **Footer:** The Disclaimer text (if provided) is the LAST element.
 
     4.  **TYPOGRAPHY:**
+        *   **Sign-off:** Serif font (Georgia), Normal weight, Dark Gray (#374151).
         *   **Labels (WEBSITE:, etc.):** Monospace font (Courier New), Bold, Uppercase.
         *   **Values:** Serif font (Georgia), Normal weight.
         *   **Name:** Large (e.g., 22px), Serif, Bold.

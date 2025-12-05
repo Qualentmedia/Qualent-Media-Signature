@@ -56,17 +56,27 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
 
           {/* Signature Content Area */}
           <div className="p-8">
-            <div className="mb-8 text-gray-700 font-serif leading-relaxed">
+            {/* Reduced margin-bottom here to rely on the signature's own spacing */}
+            <div className="mb-0 text-gray-700 font-serif leading-relaxed">
               <p>Hello,</p>
               <br />
               <p>Here is the requested document. Let me know if you need anything else.</p>
-              <br />
-              <p>Best regards,</p>
             </div>
 
             {/* Actual Signature Preview - Wrapper mimics the main table container */}
-            <div className="mt-6 border-t-0 border-gray-200 pt-0 text-left font-sans text-gray-900 leading-[1.2]">
+            <div className="mt-0 border-t-0 border-gray-200 pt-0 text-left font-sans text-gray-900 leading-[1.2]">
               
+              {/* Two line spaces above Best Regards */}
+              <br />
+              <br />
+
+              {/* Sign-off Section */}
+              {config.signOff && (
+                <p className="mb-4 font-serif text-gray-700 m-0 p-0">
+                  {config.signOff}
+                </p>
+              )}
+
               {/* Header Section: Logo + Name */}
               {/* Simulating <tr><td>...</td><td>...</td></tr> structure with flex, but tight gaps */}
               <div className="flex flex-col sm:flex-row gap-4 items-start mb-3">

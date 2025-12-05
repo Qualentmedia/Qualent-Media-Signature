@@ -74,6 +74,17 @@ export const Editor: React.FC<EditorProps> = ({ config, setConfig, onGenerate, i
         <div className="space-y-4">
           <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Identity</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+             <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Sign-off</label>
+              <input
+                type="text"
+                name="signOff"
+                value={config.signOff}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                placeholder="Best Regards,"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
               <input

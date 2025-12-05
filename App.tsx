@@ -10,6 +10,7 @@ const App: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResult, setGeneratedResult] = useState<GeneratedResult | null>(null);
   const [config, setConfig] = useState<SignatureConfig>({
+    signOff: 'Best Regards,',
     fullName: 'Asim Siddiqui',
     jobTitle: 'VP OF MARKETING & SALES',
     logo: null, 
@@ -22,11 +23,11 @@ const App: React.FC = () => {
       { id: '3', label: 'ADDRESS', value: 'Austin, TX 78750, United States' },
     ],
     socialLinks: {
-      linkedin: 'https://linkedin.com/in/asim',
+      linkedin: 'https://www.linkedin.com/company/qualent-media/',
       calendly: '',
-      twitter: '',
-      youtube: '',
-      instagram: ''
+      twitter: 'https://x.com/QualentMedia',
+      youtube: 'https://www.youtube.com/@QualentMedia',
+      instagram: 'https://www.instagram.com/qualentmedia/'
     },
     disclaimer: 'IMPORTANT: The contents of this email and any attachments are confidential. They are intended for the named recipient(s) only. If you have received this email by mistake, please notify the sender immediately.',
   });
