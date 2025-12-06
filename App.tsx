@@ -12,7 +12,7 @@ const App: React.FC = () => {
   const [config, setConfig] = useState<SignatureConfig>({
     signOff: 'Best Regards,',
     fullName: 'Asim Siddiqui',
-    jobTitle: 'VP OF MARKETING & SALES',
+    jobTitle: 'VP of Marketing & Sales',
     logo: null, 
     logoLink: '',
     banner: null,

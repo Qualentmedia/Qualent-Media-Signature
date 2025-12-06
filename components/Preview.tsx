@@ -79,7 +79,7 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
 
               {/* Header Section: Logo + Name */}
               {/* Simulating <tr><td>...</td><td>...</td></tr> structure with flex, but tight gaps */}
-              <div className="flex flex-col sm:flex-row gap-4 items-start mb-3">
+              <div className="flex flex-col sm:flex-row gap-4 items-center mb-1">
                 {config.logo && (
                   <div className="shrink-0">
                     {config.logoLink ? (
@@ -102,31 +102,38 @@ export const Preview: React.FC<PreviewProps> = ({ config }) => {
                   </div>
                 )}
                 
-                <div className="flex flex-col pt-1">
-                  <h1 className="text-[22px] font-serif font-bold text-gray-900 leading-tight m-0 p-0">
+                <div className="flex flex-col">
+                  <h1 className="text-[22px] font-serif font-bold text-[#235aed] leading-tight m-0 p-0">
                     {config.fullName || "Your Name"}
                   </h1>
-                  <p className="text-[12px] font-mono uppercase tracking-widest text-gray-600 mt-1 m-0 p-0">
+                  <p className="text-[12px] font-roboto font-bold tracking-widest text-gray-800 mt-1 m-0 p-0">
                     {config.jobTitle || "Job Title"}
                   </p>
                 </div>
               </div>
 
-              {/* Divider */}
-              <div className="h-px bg-gray-300 w-full my-3"></div>
+              {/* Divider - Reduced margins to remove extra space */}
+              <div className="h-px bg-gray-300 w-full mt-2 mb-3"></div>
 
               {/* Contact Details */}
-              <div className="space-y-1 mb-3">
-                {config.contactFields.map((field) => (
-                  <div key={field.id} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2 text-[14px]">
-                    <span className="font-mono font-bold text-gray-900 uppercase min-w-[80px] text-xs">
-                      {field.label}:
-                    </span>
-                    <span className="font-serif text-gray-600">
-                      {field.value}
-                    </span>
-                  </div>
-                ))}
+              <div className="mb-4">
+                  <table className="border-0 border-spacing-0" cellPadding="0" cellSpacing="0">
+                      <tbody>
+                        {config.contactFields.map((field) => (
+                          <tr key={field.id}>
+                            <td 
+                              className="font-roboto font-bold text-gray-800 uppercase text-[12px] pr-3 whitespace-nowrap align-baseline py-1" 
+                              style={{ width: '1%' }}
+                            >
+                              {field.label}:
+                            </td>
+                            <td className="font-roboto text-gray-900 text-[14px] align-baseline py-1 pl-0">
+                              {field.value}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                  </table>
               </div>
 
               {/* Social Media Links */}

@@ -26,19 +26,21 @@ export const generateSignatureCode = async (config: SignatureConfig): Promise<Ge
         1.  **Pre-Spacing:** Start the HTML output with <br><br> (two line breaks) to create space between the email body and the signature.
         2.  **NO DELIMITERS:** **DO NOT** include the standard email signature delimiter ("-- ", "--", or "—") before the sign-off or anywhere else. The signature should start cleanly after the line breaks.
         3.  **Sign-off:** The provided 'signOff' text (e.g. "Best regards,") follows immediately. Add spacing below it (e.g., <br><br> or padding-bottom: 20px) to separate it from the logo/name.
-        4.  **Header:** Logo (left) + Name/Title (right of logo).
-        5.  **Divider:** Horizontal line (ensure no huge gaps above/below).
-        6.  **Details:** Contact fields (Website, Email, Address).
+        4.  **Header:** Logo (left) + Name/Title (right of logo). **CRITICAL: Align these vertically in the middle.** Use 'vertical-align: middle' on the <td> cells.
+        5.  **Divider:** Horizontal line (color #d1d5db). **IMPORTANT:** Minimize vertical spacing around this line (e.g., use 'margin-top: 5px; margin-bottom: 8px;' maximum).
+        6.  **Details:** Contact fields (Website, Email, Address) formatted as a table.
         7.  **Social Media:** Icons row.
         8.  **Banner:** The banner image (if provided).
         9.  **Footer:** The Disclaimer text (if provided) is the LAST element.
 
-    4.  **TYPOGRAPHY:**
+    4.  **TYPOGRAPHY & TABLE STRUCTURE:**
         *   **Sign-off:** Serif font (Georgia), Normal weight, Dark Gray (#374151).
-        *   **Labels (WEBSITE:, etc.):** Monospace font (Courier New), Bold, Uppercase.
-        *   **Values:** Serif font (Georgia), Normal weight.
-        *   **Name:** Large (e.g., 22px), Serif, Bold.
-        *   **Job Title:** Monospace, Uppercase, smaller (e.g., 12px), letter-spacing: 1px.
+        *   **Header Name:** Large (e.g., 22px), Serif, Bold, Color: #235aed.
+        *   **Header Title:** Font-Family: 'Roboto', sans-serif; Bold, smaller (e.g., 12px), letter-spacing: 1px, Color: #333333. **Do not enforce uppercase.**
+        *   **Contact Details Table:** 
+            *   Create a nested <table> for the contact fields.
+            *   **Column 1 (Labels "WEBSITE:", etc.):** MUST have style="width: 1%; white-space: nowrap; padding-right: 10px; vertical-align: baseline;". Font: 'Roboto', sans-serif; Bold, Uppercase, size 12px, Color: #333333.
+            *   **Column 2 (Values):** Normal width, vertical-align: baseline. Font: 'Roboto', sans-serif; Normal weight, size 14px, Color: #000000.
 
     5.  **SOCIAL MEDIA ICONS (High Visibility & PNG):**
         *   We need **White Icons** centered on a **Solid Black Circle**.
@@ -64,7 +66,7 @@ export const generateSignatureCode = async (config: SignatureConfig): Promise<Ge
         *   Only render icons for links that are present in the data.
 
     6.  **IMAGES:**
-        *   **Logo:** If provided, place it in a <td> to the left of the text info. If 'logoLink' exists, wrap the <img> in an <a> tag.
+        *   **Logo:** If provided, place it in a <td> to the left of the text info (with padding-right: 15px). Align: Middle. If 'logoLink' exists, wrap the <img> in an <a> tag.
         *   **Banner:** Place in a new <tr> below social icons. Ensure 'display: block; width: 100%; max-width: 600px;'. If 'bannerLink' exists, wrap in <a>.
         *   **General:** Add 'display: block;' to all images to remove ghost padding in Outlook.
 
