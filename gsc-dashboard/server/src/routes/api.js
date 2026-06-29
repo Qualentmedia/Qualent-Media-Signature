@@ -1,10 +1,9 @@
 import { Router } from 'express';
 import { googleConfigured } from '../config.js';
-import { getSession, clientForSession } from '../store.js';
+import { readSession, clientForSession } from '../store.js';
 import { mockProvider, COUNTRIES } from '../mockProvider.js';
 import { createGscProvider } from '../gscProvider.js';
 import { detectImpressionDrops, DEFAULT_DECLINE_DAYS } from '../alertEngine.js';
-import { SID_COOKIE } from './auth.js';
 
 export const apiRouter = Router();
 
@@ -13,11 +12,10 @@ export const apiRouter = Router();
  * Live GSC if the session is authenticated AND a property is selected;
  * otherwise the demo provider.
  */
-function resolveProvider(req) {
-  const sid = req.signedCookies?.[SID_COOKIE];
-  const session = getSession(sid);
+function resolveProvider(req, res) {
+  const session = readSession(req);
   if (googleConfigured && session?.tokens && session?.siteUrl) {
-    const client = clientForSession(sid);
+    const client = clientForSession(req, res);
     if (client) {
       return { provider: createGscProvider(client, session.siteUrl), session, live: true };
     }
@@ -34,8 +32,7 @@ function parseParams(req) {
 
 /** Connection / mode status for the UI banner + settings page. */
 apiRouter.get('/status', async (req, res) => {
-  const sid = req.signedCookies?.[SID_COOKIE];
-  const session = getSession(sid);
+  const session = readSession(req);
   const connected = Boolean(googleConfigured && session?.tokens);
   res.json({
     mode: connected && session?.siteUrl ? 'live' : 'demo',
@@ -56,7 +53,7 @@ apiRouter.get('/countries', (_req, res) => {
 /** Verified Search Console properties (live only). */
 apiRouter.get('/properties', async (req, res, next) => {
   try {
-    const { provider } = resolveProvider(req);
+    const { provider } = resolveProvider(req, res);
     res.json(await provider.listProperties());
   } catch (err) {
     next(err);
@@ -65,7 +62,7 @@ apiRouter.get('/properties', async (req, res, next) => {
 
 apiRouter.get('/overview', async (req, res, next) => {
   try {
-    const { provider, live } = resolveProvider(req);
+    const { provider, live } = resolveProvider(req, res);
     const { country, days } = parseParams(req);
     const data = await provider.getOverview({ country, days });
     res.json({ ...data, live, country, days });
@@ -76,7 +73,7 @@ apiRouter.get('/overview', async (req, res, next) => {
 
 apiRouter.get('/queries', async (req, res, next) => {
   try {
-    const { provider, live } = resolveProvider(req);
+    const { provider, live } = resolveProvider(req, res);
     const { country, days, limit } = parseParams(req);
     const rows = await provider.getQueries({ country, days, limit });
     res.json({ rows, live, country, days });
@@ -87,7 +84,7 @@ apiRouter.get('/queries', async (req, res, next) => {
 
 apiRouter.get('/pages', async (req, res, next) => {
   try {
-    const { provider, live } = resolveProvider(req);
+    const { provider, live } = resolveProvider(req, res);
     const { country, days, limit } = parseParams(req);
     const rows = await provider.getPages({ country, days, limit });
     res.json({ rows, live, country, days });
@@ -102,7 +99,7 @@ apiRouter.get('/pages', async (req, res, next) => {
  */
 apiRouter.get('/alerts', async (req, res, next) => {
   try {
-    const { provider, live } = resolveProvider(req);
+    const { provider, live } = resolveProvider(req, res);
     const { country, days } = parseParams(req);
     const threshold = Math.min(
       Math.max(parseInt(req.query.threshold, 10) || DEFAULT_DECLINE_DAYS, 2),

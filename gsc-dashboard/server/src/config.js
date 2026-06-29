@@ -27,6 +27,8 @@ export const config = {
   },
   sessionSecret: SESSION_SECRET,
   forceDemo: FORCE_DEMO === 'true',
+  // Secure cookies when the public URL is HTTPS (Vercel/Netlify/prod).
+  cookieSecure: CLIENT_URL.startsWith('https://'),
 };
 
 // We can only talk to the real Google API if OAuth credentials exist

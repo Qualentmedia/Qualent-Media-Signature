@@ -37,7 +37,9 @@ Docker / VPS) or as a Vercel serverless function — same code either way.
 gsc-dashboard/
 ├── package.json   one package: all deps + dev/build/start scripts
 ├── vercel.json    Vercel build + serverless routing
-├── api/index.js   Vercel serverless entry (re-exports the Express app)
+├── netlify.toml   Netlify build + function routing
+├── api/index.js          Vercel serverless entry (re-exports the Express app)
+├── netlify/functions/    Netlify serverless entry (serverless-http wrapper)
 ├── server/        Node + Express API
 │   └── src/
 │       ├── app.js            Express app (routes, static serving) — no listen
@@ -48,7 +50,7 @@ gsc-dashboard/
 │       ├── gscProvider.js     live Search Console API client
 │       ├── mockProvider.js    deterministic demo data (same interface)
 │       ├── alertEngine.js     consecutive-decline detection
-│       └── store.js           session + token store
+│       └── store.js           encrypted-cookie session (OAuth tokens)
 └── client/        React + Vite + TypeScript
     └── src/
         ├── App.tsx            shell, nav, filters, OAuth callback handling
@@ -118,16 +120,25 @@ project settings, then redeploy:
 | `GOOGLE_REDIRECT_URI` | `https://your-app.vercel.app/api/auth/google/callback` |
 | `SESSION_SECRET` | any long random string |
 
-> **Note on serverless + live OAuth:** the session/token store is in-memory, which
-> is fine for demo mode (stateless) but won't reliably persist a logged-in Google
-> session across serverless invocations. For production *live* use, run it as a
-> single long-running service (the **Docker / VPS** path via `npm start`) or wire
-> `server/src/store.js` to a persistent store (e.g. Vercel KV / Redis). Demo mode
-> on Vercel needs none of this.
+Live OAuth works on serverless too: the session keeps your Google tokens in an
+**encrypted, httpOnly cookie** (AES-256-GCM, keyed by `SESSION_SECRET`), so no
+database is required and login survives across serverless invocations. Add `GET`
+redirect URI to your Google OAuth client to match `GOOGLE_REDIRECT_URI` above.
 
-> **Netlify** works the same way conceptually (static `dist/` + a function for
-> `/api/*`); it just needs a `netlify.toml` with a redirect to a function instead
-> of `vercel.json`. Ask if you want that added.
+> Multi-user note: cookie sessions are per-browser, which is ideal for a single
+> operator dashboard. For many distinct users, swap the read/write helpers in
+> `server/src/store.js` for a server-side store (Redis / Vercel KV).
+
+## Deploying to Netlify
+
+Preconfigured via `netlify.toml`. In Netlify:
+
+1. **Add new site → Import an existing project** from this repo.
+2. Set **Base directory** to `gsc-dashboard` (build command `npm run build`,
+   publish `dist`, and the `/api/*` → function redirect are already in
+   `netlify.toml`).
+3. **Deploy.** Demo mode works immediately; for live data add the same
+   environment variables as the Vercel table (using your `*.netlify.app` URL).
 
 ---
 

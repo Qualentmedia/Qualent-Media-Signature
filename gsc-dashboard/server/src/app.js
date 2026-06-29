@@ -15,6 +15,17 @@ import { apiRouter } from './routes/api.js';
  */
 const app = express();
 
+// On Netlify, requests arrive under the function path
+// (/.netlify/functions/api/...). Normalize them back to /api/... so the routes
+// below match. No-op on Vercel / local where this prefix never appears.
+const NETLIFY_PREFIX = '/.netlify/functions/api';
+app.use((req, _res, next) => {
+  if (req.url.startsWith(NETLIFY_PREFIX)) {
+    req.url = '/api' + (req.url.slice(NETLIFY_PREFIX.length) || '');
+  }
+  next();
+});
+
 app.use(
   cors({
     origin: config.clientUrl,
