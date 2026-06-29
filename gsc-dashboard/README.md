@@ -29,11 +29,19 @@ Every view respects the **country filter** (default United States) and the
 
 ## Architecture
 
+It is a **single deployable project**: the React app builds to static files
+(`dist/`) and the Express API runs either as a long-running server (local /
+Docker / VPS) or as a Vercel serverless function — same code either way.
+
 ```
 gsc-dashboard/
+├── package.json   one package: all deps + dev/build/start scripts
+├── vercel.json    Vercel build + serverless routing
+├── api/index.js   Vercel serverless entry (re-exports the Express app)
 ├── server/        Node + Express API
 │   └── src/
-│       ├── index.js          app entry, CORS, error handling
+│       ├── app.js            Express app (routes, static serving) — no listen
+│       ├── index.js          local listener (imports app.js)
 │       ├── config.js         env config + "is Google configured?" flag
 │       ├── routes/auth.js     Google OAuth flow (read-only scope)
 │       ├── routes/api.js      /overview /queries /pages /alerts /status
@@ -63,8 +71,8 @@ frontend code is identical in both modes.
 ```bash
 cd gsc-dashboard
 
-# install both server and client deps
-npm run install:all
+# install everything (one package.json now)
+npm install
 
 # (optional) configure live Google data — otherwise demo mode is used
 cp server/.env.example server/.env   # then fill in the Google OAuth values
@@ -75,6 +83,51 @@ npm run dev
 
 Open **http://localhost:3000**. The Vite dev server proxies `/api` to the
 backend, so cookies and OAuth work as same-origin.
+
+To run it the way production does (one process serving both the built app and
+the API):
+
+```bash
+npm run build      # → dist/
+npm start          # serves dist/ + /api on :4000  → open http://localhost:4000
+```
+
+---
+
+## Deploying to Vercel
+
+The repo is preconfigured (`vercel.json`). In Vercel:
+
+1. **New Project → Import** this Git repository.
+2. Set **Root Directory** to `gsc-dashboard`.
+3. Leave the build settings as detected — `vercel.json` already specifies the
+   build command (`npm run build`), output (`dist/`), and routes `/api/*` to the
+   serverless function. Click **Deploy**.
+
+That's it — the dashboard comes up in **demo mode** with no further config, so
+you can view everything immediately at your `*.vercel.app` URL.
+
+**To enable live Google data on Vercel**, add these Environment Variables in the
+project settings, then redeploy:
+
+| Variable | Value |
+| --- | --- |
+| `CLIENT_URL` | your deployed URL, e.g. `https://your-app.vercel.app` |
+| `GOOGLE_CLIENT_ID` | from Google Cloud |
+| `GOOGLE_CLIENT_SECRET` | from Google Cloud |
+| `GOOGLE_REDIRECT_URI` | `https://your-app.vercel.app/api/auth/google/callback` |
+| `SESSION_SECRET` | any long random string |
+
+> **Note on serverless + live OAuth:** the session/token store is in-memory, which
+> is fine for demo mode (stateless) but won't reliably persist a logged-in Google
+> session across serverless invocations. For production *live* use, run it as a
+> single long-running service (the **Docker / VPS** path via `npm start`) or wire
+> `server/src/store.js` to a persistent store (e.g. Vercel KV / Redis). Demo mode
+> on Vercel needs none of this.
+
+> **Netlify** works the same way conceptually (static `dist/` + a function for
+> `/api/*`); it just needs a `netlify.toml` with a redirect to a function instead
+> of `vercel.json`. Ask if you want that added.
 
 ---
 
