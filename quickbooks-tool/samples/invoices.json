@@ -1,0 +1,21 @@
+[
+  {
+    "customer": "Acme Corporation",
+    "txn_date": "2026-07-14",
+    "ref_number": "1001",
+    "memo": "July consulting engagement",
+    "lines": [
+      { "item": "Consulting", "desc": "Strategy workshop", "quantity": "8", "rate": "175" },
+      { "item": "Support", "desc": "Follow-up support", "quantity": "2", "rate": "120" }
+    ]
+  },
+  {
+    "customer": "Beta Industries",
+    "txn_date": "2026-07-14",
+    "ref_number": "1002",
+    "memo": "Website retainer",
+    "lines": [
+      { "item": "Consulting", "desc": "Monthly retainer", "quantity": "1", "rate": "2500" }
+    ]
+  }
+]

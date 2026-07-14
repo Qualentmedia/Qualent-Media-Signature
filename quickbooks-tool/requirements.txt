@@ -1,0 +1,6 @@
+# Runtime dependency (Windows only) — talks to the QuickBooks Desktop SDK
+# over COM. The rest of the tool uses only the Python standard library.
+pywin32>=306 ; platform_system == "Windows"
+
+# Test-only dependency (any platform).
+pytest>=7.0
