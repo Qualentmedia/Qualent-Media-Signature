@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Wifi-off glyph. -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M23.64,7c-0.45,-0.34 -4.93,-4 -11.64,-4 -1.5,0 -2.89,0.19 -4.15,0.48L18.18,14.27 23.64,7zM17.05,17.46L3.27,3.68 2,4.95l2.05,2.05C1.91,8.36 0.59,9.55 0.36,9.73L12,24.05l3.7,-4.56 3.26,3.26 1.27,-1.27 -3.18,-3.02z" />
+</vector>

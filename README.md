@@ -4,6 +4,11 @@
 
 # Run and deploy your AI Studio app
 
+> **📱 JK Job Alerts Android app** — a native Android app for
+> [jkjobalerts.com](https://jkjobalerts.com) (WebView shell + Firebase push
+> notifications for new job posts) lives in [`android/`](android/). See
+> [`android/README.md`](android/README.md) to build and configure it.
+
 This contains everything you need to run your app locally.
 
 View your app in AI Studio: https://ai.studio/apps/drive/1-RpVTwnKpvx7WVsxi9K0NvQ_0smSoJdu

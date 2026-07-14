@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark-mode surfaces / text; brand colours stay recognisable. -->
+    <color name="surface">#0F141A</color>
+    <color name="text_primary">#F1F5F9</color>
+    <color name="text_secondary">#9AA6B2</color>
+</resources>

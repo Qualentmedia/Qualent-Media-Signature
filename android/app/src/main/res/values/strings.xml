@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JK Job Alerts</string>
+
+    <!-- Notifications -->
+    <string name="default_notification_channel_id">jk_job_alerts</string>
+    <string name="notification_channel_name">Job Alerts</string>
+    <string name="notification_channel_description">Notifications about new job posts and updates from JK Job Alerts.</string>
+    <string name="new_job_alert">A new job has been posted. Tap to view.</string>
+
+    <!-- Offline / errors -->
+    <string name="offline_title">You\'re offline</string>
+    <string name="offline_message">We couldn\'t load JK Job Alerts. Please check your internet connection and try again.</string>
+    <string name="try_again">Try again</string>
+    <string name="no_app_to_open">No app found to open this link.</string>
+
+    <!-- Navigation / downloads -->
+    <string name="press_back_again">Press back again to exit</string>
+    <string name="downloading">Downloading…</string>
+    <string name="download_started">Download started</string>
+    <string name="download_failed">Couldn\'t start the download</string>
+</resources>
