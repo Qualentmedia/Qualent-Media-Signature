@@ -1,0 +1,3 @@
+customer,txn_date,ref_number,memo,line1_item,line1_desc,line1_quantity,line1_rate,line2_item,line2_desc,line2_quantity,line2_rate
+Acme Corporation,2026-07-14,1001,July consulting,Consulting,Strategy workshop,8,175,Support,Follow-up support,2,120
+Beta Industries,2026-07-14,1002,Website retainer,Consulting,Monthly retainer,1,2500,,,,
