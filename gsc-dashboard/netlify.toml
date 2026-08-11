@@ -1,0 +1,16 @@
+# Netlify deploy config. In the Netlify UI set the site's
+# "Base directory" to  gsc-dashboard  (mirrors Vercel's Root Directory).
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["server/**"]
+
+# Route the API to the serverless function; the SPA is served from dist/.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
